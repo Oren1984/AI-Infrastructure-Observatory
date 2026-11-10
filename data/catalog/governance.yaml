@@ -1,0 +1,279 @@
+# Governance and evidence catalog.
+#
+# Jurisdictions are configuration-driven: add one under `jurisdictions` and
+# give it entries (or an explicit gap entry). Results shown in the app are
+# DEMONSTRATION EVIDENCE produced by a simulation. They are not a compliance
+# verdict for any real facility or service.
+catalog_version: "2026-11-10"
+
+jurisdictions:
+  - {code: EU, name: "European Union", initial: true,  relation: "Applies to the reference facility (EU member state)"}
+  - {code: US, name: "United States",  initial: true,  relation: "Comparison jurisdiction"}
+  - {code: AU, name: "Australia",      initial: true,  relation: "Comparison jurisdiction"}
+  - {code: JP, name: "Japan",          initial: true,  relation: "Comparison jurisdiction"}
+  - {code: IL, name: "Israel",         initial: true,  relation: "Comparison jurisdiction"}
+  - {code: IE, name: "Ireland",        initial: false, relation: "Location of the reference facility (added by configuration)"}
+
+controls:
+  - {id: CTL-EN-01,   title: "Energy and water KPI reporting",           demonstration: "PUE, WUE and energy totals computed per run with formula and inputs (Cost & governance tab)."}
+  - {id: CTL-AIR-02,  title: "Backup generator hours and emissions",      demonstration: "Generator run time, fuel, CO₂ and NOx estimate per run (Cooling, environment & community tab)."}
+  - {id: CTL-SEC-03,  title: "Cybersecurity risk management",            demonstration: "Simulated control checks and alert feed (Security & observability tab)."}
+  - {id: CTL-AI-04,   title: "AI service oversight and accountability",   demonstration: "Decision log tying each shed/route/restore to owner, policy and event evidence."}
+  - {id: CTL-GRID-05, title: "Grid connection conditions and instructions", demonstration: "Demand-reduction instruction handling and on-site dispatchable capacity."}
+  - {id: CTL-PRIV-06, title: "Privacy by design in operational logs",     demonstration: "Event schema has no prompt, credential or user-identifier fields."}
+
+policies:
+  - {id: POL-LS-01, title: "Load-shedding priority",                  control: CTL-GRID-05, owner: "Facility shift lead"}
+  - {id: POL-RC-02, title: "Staged recovery",                         control: CTL-AI-04,   owner: "Facility shift lead"}
+  - {id: POL-SV-03, title: "Model routing under constraint",          control: CTL-AI-04,   owner: "SRE on call"}
+  - {id: POL-EM-04, title: "Islanding and backup dispatch",           control: CTL-AIR-02,  owner: "Electrical duty engineer"}
+  - {id: POL-EM-05, title: "Controlled shutdown",                     control: CTL-AI-04,   owner: "Incident commander"}
+  - {id: POL-DR-06, title: "Grid operator instructions",              control: CTL-GRID-05, owner: "Energy desk"}
+
+entries:
+  # ----------------------------------------------------------------- EU
+  - id: GOV-EU-01
+    jurisdiction: EU
+    level: supranational
+    issuing_authority: "European Parliament and Council"
+    instrument: "Directive (EU) 2023/1791 (Energy Efficiency Directive, recast)"
+    source_id: eu-2023-1791
+    section: "Article 12(1)"
+    publication_date: "2023-09-20"
+    effective_date: "2024-05-15 (first reporting date)"
+    domain: facility
+    legal_status: binding
+    scope: "Member States require owners/operators of data centres with installed IT power demand ≥ 500 kW to make information public and report annually."
+    applicability: applies
+    related_control: CTL-EN-01
+    evidence_expected: "Annual energy, water and KPI report via the national scheme."
+    uncertainty: "Obligation reaches operators through national transposition; Irish transposition not checked."
+  - id: GOV-EU-02
+    jurisdiction: EU
+    level: supranational
+    issuing_authority: "European Commission"
+    instrument: "Delegated Regulation (EU) 2024/1364 (data centre rating scheme, first phase)"
+    source_id: eu-2024-1364
+    section: "Article 3; Annex I–III"
+    publication_date: "2024-05-17"
+    effective_date: "2024-09-15 (first reporting); then 15 May annually"
+    domain: facility
+    legal_status: binding
+    scope: "Reporting of information and KPIs to the European database; sustainability indicators PUE, WUE, ERF, REF."
+    applicability: applies
+    related_control: CTL-EN-01
+    evidence_expected: "KPI dataset with E_DC, E_IT, W_IN, renewable energy inputs."
+    uncertainty: "Simulation covers a 4-hour window, not an annual reporting period."
+  - id: GOV-EU-03
+    jurisdiction: EU
+    level: supranational
+    issuing_authority: "European Parliament and Council"
+    instrument: "Directive (EU) 2015/2193 (Medium Combustion Plant Directive)"
+    source_id: eu-2015-2193
+    section: "Article 2(1); Article 6 (limited operating hours exemption)"
+    publication_date: "2015-11-28"
+    effective_date: "Per national transposition"
+    domain: facility
+    legal_status: binding
+    scope: "Combustion plants 1–50 MW rated thermal input; exemption from emission limit values below 500 operating hours per year (rolling average)."
+    applicability: may_apply
+    related_control: CTL-AIR-02
+    evidence_expected: "Generator registration/permit, operating-hour log, emissions monitoring."
+    uncertainty: "Whether generator sets are aggregated into one plant, and Irish permitting route, not determined."
+  - id: GOV-EU-04
+    jurisdiction: EU
+    level: supranational
+    issuing_authority: "European Parliament and Council"
+    instrument: "Directive (EU) 2022/2555 (NIS 2)"
+    source_id: eu-2022-2555
+    section: "Article 21; Annex I (digital infrastructure)"
+    publication_date: "2022-12-27"
+    effective_date: "2024-10-18 (application of national measures)"
+    domain: ai_service
+    legal_status: binding
+    scope: "Cybersecurity risk-management measures for essential and important entities, including data centre service providers."
+    applicability: may_apply
+    related_control: CTL-SEC-03
+    evidence_expected: "Risk-management measures, incident handling, business continuity and backup management."
+    uncertainty: "Entity classification depends on size and national transposition; not determined for a fictional operator."
+  - id: GOV-EU-05
+    jurisdiction: EU
+    level: supranational
+    issuing_authority: "European Parliament and Council"
+    instrument: "Regulation (EU) 2024/1689 (AI Act)"
+    source_id: eu-2024-1689
+    section: "Article 113 (application dates); Article 53 (GPAI providers); Article 26 (deployers of high-risk systems)"
+    publication_date: "2024-07-12"
+    effective_date: "2024-08-01 entry into force; staged application 2025–2027"
+    domain: ai_service
+    legal_status: binding
+    scope: "Obligations depend on role (provider/deployer) and risk classification of the AI system."
+    applicability: unknown
+    related_control: CTL-AI-04
+    evidence_expected: "Role and risk classification record; documentation; human oversight arrangements where applicable."
+    uncertainty: "A general chat service is not classified here; amendments after the published text were not checked."
+  # ----------------------------------------------------------------- IE
+  - id: GOV-IE-01
+    jurisdiction: IE
+    level: national
+    issuing_authority: "Commission for Regulation of Utilities"
+    instrument: "Large Energy Users Connection Policy decision (CRU2025236); direction to System Operators under s.34 Electricity Regulation Act 1999"
+    source_id: ie-cru-leu-2025
+    section: "Sections 3.3–3.5 (requirements by MIC; renewable electricity requirement)"
+    publication_date: "2025-12-12"
+    effective_date: "Applies to new connection applications for new or additional capacity; supersedes Direction CRU/21/124"
+    domain: facility
+    legal_status: binding
+    scope: "Data centres ≥ 10 MVA must provide dispatchable onsite or proximate generation and/or storage matching their MIC (de-rated); ≥ 1 MVA must meet ≥ 80% of annual demand with additional Irish renewable electricity on a 6-year glide path."
+    applicability: applies
+    related_control: CTL-GRID-05
+    evidence_expected: "Connection agreement; de-rated dispatchable capacity records; renewable electricity matching evidence."
+    uncertainty: "Read from the official decision paper; detailed de-rating rules and transitional provisions not modelled. The reference configuration (24 MW dispatchable vs 34 MW connection) is shown as a demonstration gap (CHK-09), not a verdict."
+  # ----------------------------------------------------------------- US
+  - id: GOV-US-01
+    jurisdiction: US
+    level: national
+    issuing_authority: "U.S. Environmental Protection Agency"
+    instrument: "40 CFR Part 60 Subpart IIII (NSPS, stationary CI engines)"
+    source_id: us-40cfr60-4211
+    section: "§ 60.4211(f)"
+    publication_date: null
+    effective_date: "Current eCFR text (2026-11-10)"
+    domain: facility
+    legal_status: binding
+    scope: "Emergency stationary engines: maintenance and readiness testing limited to 100 hours per calendar year."
+    applicability: comparison_only
+    related_control: CTL-AIR-02
+    evidence_expected: "Non-resettable hour meter; operating log by purpose."
+    uncertainty: "State air permits (subnational) not catalogued."
+  - id: GOV-US-02
+    jurisdiction: US
+    level: national
+    issuing_authority: "National Institute of Standards and Technology"
+    instrument: "AI Risk Management Framework 1.0"
+    source_id: nist-ai-rmf-1
+    section: "Framework core (Govern, Map, Measure, Manage)"
+    publication_date: "2023-01-26"
+    effective_date: null
+    domain: ai_service
+    legal_status: voluntary_standard
+    scope: "Voluntary framework for managing AI risks."
+    applicability: comparison_only
+    related_control: CTL-AI-04
+    evidence_expected: "Risk register, roles, measurement and incident procedures."
+    uncertainty: null
+  # ----------------------------------------------------------------- AU
+  - id: GOV-AU-01
+    jurisdiction: AU
+    level: national
+    issuing_authority: "Parliament of Australia (administered by Department of Home Affairs)"
+    instrument: "Security of Critical Infrastructure Act 2018"
+    source_id: au-soci-2018
+    section: "s12F; Part 2A s30AC"
+    publication_date: null
+    effective_date: null
+    domain: ai_service
+    legal_status: binding
+    scope: "Critical data storage or processing assets; responsible entities must have a critical infrastructure risk management program."
+    applicability: comparison_only
+    related_control: CTL-SEC-03
+    evidence_expected: "Asset register; risk management program; annual report."
+    uncertainty: "Only section headings were confirmed; operative text and asset thresholds not read."
+  - id: GOV-AU-02
+    jurisdiction: AU
+    level: national
+    issuing_authority: "Clean Energy Regulator"
+    instrument: "National Greenhouse and Energy Reporting Act 2007"
+    source_id: au-nger-2007
+    section: null
+    publication_date: null
+    effective_date: null
+    domain: facility
+    legal_status: binding
+    scope: "Corporations meeting thresholds report emissions and energy."
+    applicability: comparison_only
+    related_control: CTL-EN-01
+    evidence_expected: "Annual NGER report."
+    uncertainty: "Thresholds not verified."
+  - id: GOV-AU-03
+    jurisdiction: AU
+    level: national
+    issuing_authority: "NABERS (NSW Department of Climate Change, Energy, the Environment and Water)"
+    instrument: "NABERS for Data Centres — Energy rating (Infrastructure, Whole facility)"
+    source_id: au-nabers-dc
+    section: "How it works; Ratings & tools"
+    publication_date: null
+    effective_date: null
+    domain: facility
+    legal_status: voluntary_standard
+    scope: "1–6 star operational rating benchmarked against peers; independent verification of metrics such as PUE; includes a Renewable Energy Indicator."
+    applicability: comparison_only
+    related_control: CTL-EN-01
+    evidence_expected: "Rating certificate and assessment report."
+    uncertainty: "The page does not state whether a rating is mandatory for data centres; voluntary status is inferred from the page's framing and not confirmed."
+  # ----------------------------------------------------------------- JP
+  - id: GOV-JP-01
+    jurisdiction: JP
+    level: national
+    issuing_authority: "Agency for Natural Resources and Energy (METI)"
+    instrument: "Act on Rationalizing Energy Use and Shifting to Non-fossil Energy — data centre benchmark and new measures"
+    source_id: jp-meti-dc-benchmark
+    section: "Benchmark system (data centre business); new measures from April 2026"
+    publication_date: "2026-05-20 (ANRE explainer; corrected 2026-06-04)"
+    effective_date: "2026-04 (new measures); FY2030 benchmark target; FY2029 new-build standard"
+    domain: facility
+    legal_status: binding
+    scope: "Specified operators report PUE against a benchmark target of ≤ 1.4 by FY2030; from FY2026 submissions report data centre items and publish them; data centres newly built from FY2029 must meet PUE ≤ 1.3, otherwise a rationalisation plan is required."
+    applicability: comparison_only
+    related_control: CTL-EN-01
+    evidence_expected: "Periodic report with PUE calculation; public disclosure by fiscal year end."
+    uncertainty: "Verified from the official ANRE explainer page, not the statutory notice text; the 1.4 value is a benchmark target, the 1.3 value a standard for new builds."
+  - id: GOV-JP-02
+    jurisdiction: JP
+    level: national
+    issuing_authority: "METI and MIC"
+    instrument: "AI Guidelines for Business Ver 1.0"
+    source_id: jp-meti-ai-guidelines
+    section: null
+    publication_date: "2024-04-19"
+    effective_date: null
+    domain: ai_service
+    legal_status: official_guidance
+    scope: "Integrated guidance for AI business operators compiled by the two ministries."
+    applicability: comparison_only
+    related_control: CTL-AI-04
+    evidence_expected: "Governance documentation aligned to the guidelines."
+    uncertainty: "Press release verified; guideline PDF not read and later versions not reviewed. 'Guidance' reflects the instrument type; the press release does not state legal effect."
+  # ----------------------------------------------------------------- IL
+  - id: GOV-IL-01
+    jurisdiction: IL
+    level: national
+    issuing_authority: "Ministry of Innovation, Science and Technology; Ministry of Justice"
+    instrument: "Israel's Policy on Artificial Intelligence Regulation and Ethics (Decision No. 212)"
+    source_id: il-ai-policy-2023
+    section: "Main policy recommendations"
+    publication_date: "2023-12-17"
+    effective_date: null
+    domain: ai_service
+    legal_status: official_guidance
+    scope: "Recommends empowering sector regulators, a risk-based approach, 'soft' regulation and OECD-aligned ethical principles for private-sector AI."
+    applicability: comparison_only
+    related_control: CTL-AI-04
+    evidence_expected: "Risk mapping and governance aligned to sector-regulator guidance."
+    uncertainty: "Official English summary read; the full policy PDF is a scanned image and was not machine-read."
+  - id: GOV-IL-02
+    jurisdiction: IL
+    level: national
+    issuing_authority: "Knesset; Privacy Protection Authority"
+    instrument: "Protection of Privacy Law — Amendment No. 13"
+    source_id: il-privacy-amend13
+    section: null
+    publication_date: null
+    effective_date: "2025-08-14"
+    domain: ai_service
+    legal_status: binding
+    scope: "Introduces 'data with special sensitivity', data protection officer duties and administrative enforcement (per PPA guidance and translation)."
+    applicability: comparison_only
+    related_control: CTL-PRIV-06
+    evidence_expected: "Data inventory; security procedures; privacy officer where required."
+    uncertainty: "Entry-into-force date from official PPA guidance; the official Hebrew Reshumot text was not read and the English translation is unofficial."

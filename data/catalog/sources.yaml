@@ -1,0 +1,315 @@
+# Evidence catalog: datasets and references used by the Observatory.
+#
+# classification:
+#   published  – figure or text taken from an official/primary publication
+#   assumption – value chosen for the fictional reference scenario
+#   simulated  – produced by the deterministic simulation engine at run time
+#
+# verification_status:
+#   verified_primary    – primary text retrieved and the cited section read on verification_date
+#   partially_verified  – official page retrieved; the cited detail was not fully visible
+#   secondary_only      – only secondary sources (law firms, press) were reachable; treat as a gap
+#   not_verified        – official source could not be retrieved; treat as a gap
+#   not_applicable      – internal scenario data; nothing external to verify
+catalog_version: "2026-11-10"
+sources:
+  - id: ie-cso-dcmec-2023
+    title: "Data Centres Metered Electricity Consumption 2023"
+    publisher: "Central Statistics Office (Ireland)"
+    url: "https://www.cso.ie/en/releasesandpublications/ep/p-dcmec/datacentresmeteredelectricityconsumption2023/"
+    edition: "Statistical release, 23 July 2024"
+    reference_date: "2023"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Regional context card: data centre share of Irish metered electricity."
+    values:
+      - {name: "Data centre share of metered electricity, 2015", value: 5, unit: "%"}
+      - {name: "Data centre share of metered electricity, 2022", value: 18, unit: "%"}
+      - {name: "Data centre share of metered electricity, 2023", value: 21, unit: "%"}
+    excerpt: "Data centres accounted for 21% of metered electricity consumption in 2023 (paraphrase of release headline)."
+
+  - id: eu-2024-1364
+    title: "Commission Delegated Regulation (EU) 2024/1364 on the first phase of the establishment of a common Union rating scheme for data centres"
+    publisher: "European Commission (Official Journal of the EU, L series)"
+    url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ%3AL_202401364"
+    edition: "Adopted 14 March 2024; OJ L 2024/1364 of 17 May 2024"
+    reference_date: "2024-03-14"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "PUE and WUE formulas in the metric detail panel (Annex III); reporting dates (Article 3)."
+    excerpt: "Annex III: PUE = E_DC / E_IT; WUE = W_IN / E_IT (W_IN in m³, E_IT in MWh)."
+
+  - id: eu-2023-1791
+    title: "Directive (EU) 2023/1791 on energy efficiency (recast)"
+    publisher: "European Parliament and Council"
+    url: "https://eur-lex.europa.eu/eli/dir/2023/1791/oj"
+    edition: "13 September 2023; OJ L 231, 20.9.2023"
+    reference_date: "2023-09-13"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: data centre reporting threshold (Article 12)."
+    excerpt: "Article 12(1): reporting from 15 May 2024 for data centres with installed IT power demand of at least 500 kW."
+
+  - id: eu-2024-1689
+    title: "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (AI Act)"
+    publisher: "European Parliament and Council"
+    url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+    edition: "13 June 2024; OJ L 2024/1689 of 12 July 2024 (as published; later amendments not checked)"
+    reference_date: "2024-06-13"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: AI service obligations; timeline dates from Article 113."
+    excerpt: "Article 113: applies from 2 August 2026; Chapters I and II from 2 February 2025."
+
+  - id: eu-2022-2555
+    title: "Directive (EU) 2022/2555 (NIS 2 Directive)"
+    publisher: "European Parliament and Council"
+    url: "https://eur-lex.europa.eu/eli/dir/2022/2555/oj"
+    edition: "14 December 2022; OJ L 333, 27.12.2022"
+    reference_date: "2022-12-14"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: cybersecurity risk-management measures (Article 21) for data centre service providers."
+    excerpt: "Article 41: transposition by 17 October 2024, applied from 18 October 2024."
+
+  - id: eu-2015-2193
+    title: "Directive (EU) 2015/2193 on medium combustion plants"
+    publisher: "European Parliament and Council"
+    url: "https://eur-lex.europa.eu/eli/dir/2015/2193/oj"
+    edition: "25 November 2015; OJ L 313, 28.11.2015"
+    reference_date: "2015-11-25"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: backup generator scope (1–50 MW thermal input) and limited-hours exemption (Article 6)."
+    excerpt: "Article 2: plants with rated thermal input ≥ 1 MW and < 50 MW; Article 6 allows exemption below 500 operating hours per year."
+
+  - id: us-40cfr60-4211
+    title: "40 CFR 60.4211 — compliance requirements for stationary CI internal combustion engines (Part 60, Subpart IIII)"
+    publisher: "U.S. Environmental Protection Agency (eCFR)"
+    url: "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-60/subpart-IIII/section-60.4211"
+    edition: "eCFR current text retrieved 2026-11-10"
+    reference_date: "2026-11-10"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: emergency engine non-emergency operation limit (comparison jurisdiction)."
+    excerpt: "Section 60.4211(f): maintenance and readiness testing limited to 100 hours per calendar year."
+
+  - id: nist-ai-rmf-1
+    title: "NIST AI Risk Management Framework (AI RMF 1.0, NIST AI 100-1)"
+    publisher: "National Institute of Standards and Technology"
+    url: "https://www.nist.gov/itl/ai-risk-management-framework"
+    edition: "Released 26 January 2023"
+    reference_date: "2023-01-26"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: voluntary AI risk management (comparison jurisdiction)."
+    excerpt: "Framework page states it is intended for voluntary use."
+
+  - id: au-soci-2018
+    title: "Security of Critical Infrastructure Act 2018 (Cth)"
+    publisher: "Federal Register of Legislation (Department of Home Affairs)"
+    url: "https://www.legislation.gov.au/C2018A00029/latest/text"
+    edition: "Latest compilation as displayed 2026-11-10"
+    reference_date: "2026-11-10"
+    verification_date: "2026-11-10"
+    verification_status: partially_verified
+    classification: published
+    used_for: "Governance catalog: data storage or processing assets; risk management program."
+    excerpt: "Section headings confirmed: s12F (critical data storage or processing asset), s30AC (risk management program). Operative text not read."
+
+  - id: au-nger-2007
+    title: "National Greenhouse and Energy Reporting Act 2007 — NGER scheme"
+    publisher: "Clean Energy Regulator"
+    url: "https://cer.gov.au/schemes/national-greenhouse-and-energy-reporting-scheme"
+    edition: "Scheme page retrieved 2026-11-10"
+    reference_date: "2026-11-10"
+    verification_date: "2026-11-10"
+    verification_status: partially_verified
+    classification: published
+    used_for: "Governance catalog: facility energy and emissions reporting (comparison jurisdiction)."
+    excerpt: "Scheme established under the 2007 Act; numeric thresholds not shown on the retrieved page."
+
+  - id: au-nabers-dc
+    title: "NABERS for Data Centres (Energy rating: Infrastructure and Whole facility)"
+    publisher: "NABERS (NSW Department of Climate Change, Energy, the Environment and Water)"
+    url: "https://www.nabers.gov.au/ratings/spaces-we-rate/data-centres"
+    edition: "Web page retrieved 2026-11-10 (no edition date shown)"
+    reference_date: "2026-11-10"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: data centre energy rating (comparison jurisdiction)."
+    excerpt: "1–6 star rating; Energy rating includes independent verification of metrics such as PUE (paraphrase)."
+  - id: jp-meti-dc-benchmark
+    title: "New measures for data centres under the Act on Rationalizing Energy Use and Shifting to Non-fossil Energy (benchmark system, PUE)"
+    publisher: "Agency for Natural Resources and Energy, METI (Japan)"
+    url: "https://www.enecho.meti.go.jp/about/special/johoteikyo/data_center2026.html"
+    edition: "Article published 2026-05-20, corrected 2026-06-04 (Japanese)"
+    reference_date: "2026-05-20"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: PUE benchmark target, new-build efficiency standard, reporting and disclosure."
+    excerpt: "Benchmark target PUE ≤ 1.4 by FY2030; data centres newly built from FY2029 must meet PUE ≤ 1.3; measures in force from April 2026 (paraphrase)."
+  - id: jp-meti-ai-guidelines
+    title: "AI Guidelines for Business Ver 1.0"
+    publisher: "METI and Ministry of Internal Affairs and Communications (Japan)"
+    url: "https://www.meti.go.jp/english/press/2024/0419_002.html"
+    edition: "Joint press release, 19 April 2024 (Ver 1.0); later versions not reviewed"
+    reference_date: "2024-04-19"
+    verification_date: "2026-11-10"
+    verification_status: partially_verified
+    classification: published
+    used_for: "Governance catalog: AI governance guidance (comparison jurisdiction)."
+    excerpt: "METI and MIC integrated three earlier guidelines and compiled Ver 1.0 on 19 April 2024 (paraphrase). Guideline PDF not read."
+  - id: il-ai-policy-2023
+    title: "Israel's Policy on Artificial Intelligence Regulation and Ethics (Decision No. 212)"
+    publisher: "Ministry of Innovation, Science and Technology with the Ministry of Justice (Israel)"
+    url: "https://www.gov.il/en/pages/ai_2023"
+    edition: "Published 17 December 2023 (gov.il policy page)"
+    reference_date: "2023-12-17"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: national AI policy (comparison jurisdiction)."
+    excerpt: "Recommends sector-specific regulators, a risk-based approach and 'soft' regulation (paraphrase of the official summary)."
+  - id: il-privacy-amend13
+    title: "Privacy Protection Law, 5741-1981 — Amendment No. 13"
+    publisher: "Privacy Protection Authority (Israel), Ministry of Justice"
+    url: "https://www.gov.il/BlobFolder/legalinfo/the_board_role/en/Role_of_the_Board.pdf"
+    edition: "PPA Guidance No. 1/2024 (English); PPA unofficial consolidated translation 'Updated After Amendment 13'"
+    reference_date: "2025-08-14"
+    verification_date: "2026-11-10"
+    verification_status: partially_verified
+    classification: published
+    used_for: "Governance catalog: privacy law reform (comparison jurisdiction)."
+    excerpt: "PPA guidance: Amendment No. 13 approved by the Knesset and in force from 14 August 2025 (paraphrase). Official Reshumot text not read."
+  - id: ie-cru-leu-2025
+    title: "Large Energy Users Connection Policy — decision paper CRU2025236"
+    publisher: "Commission for Regulation of Utilities (Ireland)"
+    url: "https://www.cru.ie/publications/28573"
+    edition: "Decision paper published 12 December 2025 (134 pp.)"
+    reference_date: "2025-12-12"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Governance catalog: grid connection conditions for data centres in the reference region."
+    excerpt: "≥ 10 MVA: dispatchable onsite or proximate generation/storage matching MIC (de-rated); ≥ 80% of annual demand from additional Irish renewables (Sections 3.4–3.5, paraphrase)."
+  - id: epa-ghg-hub-2025
+    title: "GHG Emission Factors Hub 2025 — Table 1 Stationary Combustion"
+    publisher: "U.S. Environmental Protection Agency"
+    url: "https://www.epa.gov/climateleadership/ghg-emission-factors-hub"
+    edition: "2025 Hub (January 2025)"
+    reference_date: "2025-01"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Diesel combustion CO2 factor for standby generators (10.21 kg/gal → 2.70 kg/L)."
+    values:
+      - {name: "Distillate Fuel Oil No. 2, CO2 per gallon", value: 10.21, unit: "kg CO2/gal"}
+      - {name: "Distillate Fuel Oil No. 2, CO2 per mmBtu", value: 73.96, unit: "kg CO2/mmBtu"}
+    excerpt: "Combustion-only (tank-to-wheel) factors; upstream emissions excluded."
+
+  - id: iea-energy-ai-2025
+    title: "Energy and AI"
+    publisher: "International Energy Agency"
+    url: "https://www.iea.org/reports/energy-and-ai"
+    edition: "Published 10 April 2025"
+    reference_date: "2025-04-10"
+    verification_date: "2026-11-10"
+    verification_status: partially_verified
+    classification: published
+    used_for: "Context: electricity demand scenarios. No IEA figure is used numerically (projections not visible on the retrieved page)."
+    excerpt: null
+
+  - id: lbnl-2024
+    title: "2024 United States Data Center Energy Usage Report"
+    publisher: "Lawrence Berkeley National Laboratory (Shehabi et al.)"
+    url: "https://bies.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+    edition: "19 December 2024"
+    reference_date: "2024-12-19"
+    verification_date: "2026-11-10"
+    verification_status: partially_verified
+    classification: published
+    used_for: "Methodology context for energy and water boundaries. No LBNL figure is used numerically."
+    excerpt: null
+
+  - id: doe-islanding-2021
+    title: "Islanding a Microgrid"
+    publisher: "U.S. Department of Energy, Federal Energy Management Program"
+    url: "https://www.energy.gov/cmei/femp/articles/islanding-microgrid"
+    edition: "15 October 2021"
+    reference_date: "2021-10-15"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Concept: grid-connected versus islanded operation (Help Center, islanding rules)."
+    excerpt: "Grid-connected microgrids share generation with the grid; islanded ones run on local resources."
+
+  - id: claude-dashboards-video
+    title: "Claude Dashboards walkthrough (video)"
+    publisher: "Anthropic (YouTube)"
+    url: "https://www.youtube.com/watch?v=EFc5FfhXxT0"
+    edition: "Not reviewed"
+    reference_date: null
+    verification_date: "2026-11-10"
+    verification_status: not_verified
+    classification: published
+    used_for: "Design inspiration only (metric detail panel). Not a data source."
+    excerpt: null
+
+  - id: ds-reference-facility
+    title: "ORF-1 reference facility and regional model"
+    publisher: "This repository (data/reference_facility.yaml)"
+    url: null
+    edition: "1.0.0"
+    reference_date: "2026-11-10"
+    verification_date: null
+    verification_status: not_applicable
+    classification: assumption
+    used_for: "All capacities, factors, prices, thresholds and workload sizes."
+    excerpt: null
+
+  - id: ds-scenarios
+    title: "Scenario inputs (normal, constrained, emergency)"
+    publisher: "This repository (data/scenarios/)"
+    url: null
+    edition: "1.0.0"
+    reference_date: "2026-11-10"
+    verification_date: null
+    verification_status: not_applicable
+    classification: assumption
+    used_for: "Event timing and magnitudes of the illustrative cascade."
+    excerpt: null
+
+  - id: ds-costs
+    title: "Cost assumptions"
+    publisher: "This repository (data/catalog/costs.yaml)"
+    url: null
+    edition: "1.0.0"
+    reference_date: "2026-11-10"
+    verification_date: null
+    verification_status: not_applicable
+    classification: assumption
+    used_for: "Capital and operating cost comparison."
+    excerpt: null
+
+  - id: sim-engine
+    title: "Simulated telemetry"
+    publisher: "observatory.engine (deterministic)"
+    url: null
+    edition: "1.0.0"
+    reference_date: null
+    verification_date: null
+    verification_status: not_applicable
+    classification: simulated
+    used_for: "Every time series, alert and request trace in the dashboard."
+    excerpt: null

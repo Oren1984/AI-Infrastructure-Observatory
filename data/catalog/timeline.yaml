@@ -1,0 +1,28 @@
+# 2023–2030 planning timeline. Independent of the incident simulation clock.
+# evidence:
+#   observed     – published historical evidence (see source_id and its verification status)
+#   announced    – dates set in law or official plans that were future when announced
+#   hypothetical – forward scenario for the fictional ORF-1 facility
+catalog_version: "2026-11-10"
+milestones:
+  - {date: "2023-04-01", category: planning,           evidence: hypothetical, title: "ORF-1 concept and capacity plan (fictional)", source_id: ds-scenarios}
+  - {date: "2023-09-13", category: regulation,         evidence: observed,     title: "EU Energy Efficiency Directive recast adopted (data centre reporting, Art. 12)", source_id: eu-2023-1791}
+  - {date: "2023-11-01", category: site_selection,     evidence: hypothetical, title: "Site selected in the Dublin region (fictional)", source_id: ds-scenarios}
+  - {date: "2024-03-14", category: regulation,         evidence: observed,     title: "EU data centre rating scheme regulation 2024/1364 adopted", source_id: eu-2024-1364}
+  - {date: "2024-05-01", category: permits,            evidence: hypothetical, title: "Planning and generator (MCP) applications filed (fictional)", source_id: ds-scenarios}
+  - {date: "2024-07-23", category: market,             evidence: observed,     title: "CSO: data centres used 21% of Irish metered electricity in 2023", source_id: ie-cso-dcmec-2023}
+  - {date: "2024-08-01", category: regulation,         evidence: observed,     title: "EU AI Act enters into force (20 days after OJ publication)", source_id: eu-2024-1689}
+  - {date: "2024-09-15", category: regulation,         evidence: observed,     title: "First EU data centre KPI reporting date (Reg. 2024/1364 Art. 3)", source_id: eu-2024-1364}
+  - {date: "2024-12-19", category: market,             evidence: observed,     title: "LBNL publishes 2024 US Data Center Energy Usage Report", source_id: lbnl-2024}
+  - {date: "2025-02-01", category: utility_connection, evidence: hypothetical, title: "Grid connection offer with firm-import cap and on-site dispatchable capacity (fictional)", source_id: ds-scenarios}
+  - {date: "2025-04-10", category: market,             evidence: observed,     title: "IEA publishes Energy and AI", source_id: iea-energy-ai-2025}
+  - {date: "2025-06-01", category: construction,       evidence: hypothetical, title: "Construction starts (fictional)", source_id: ds-scenarios}
+  - {date: "2025-12-12", category: regulation,         evidence: observed,     title: "CRU publishes Large Energy Users connection policy decision CRU2025236", source_id: ie-cru-leu-2025}
+  - {date: "2026-04-01", category: regulation,         evidence: observed,     title: "Japan: new data centre measures under the energy-use law take effect (April 2026)", source_id: jp-meti-dc-benchmark}
+  - {date: "2026-08-02", category: regulation,         evidence: announced,    title: "AI Act general date of application (Art. 113; later amendments not checked)", source_id: eu-2024-1689}
+  - {date: "2026-09-01", category: commissioning,      evidence: hypothetical, title: "Integrated systems testing incl. islanding drill (fictional)", source_id: ds-scenarios}
+  - {date: "2026-12-01", category: go_live,            evidence: hypothetical, title: "Phase 1 go-live, 24 MW IT (fictional)", source_id: ds-scenarios}
+  - {date: "2027-08-02", category: regulation,         evidence: announced,    title: "AI Act Article 6(1) obligations apply (Art. 113(c))", source_id: eu-2024-1689}
+  - {date: "2028-06-01", category: expansion,          evidence: hypothetical, title: "Phase 2 expansion subject to grid capacity (fictional)", source_id: ds-scenarios}
+  - {date: "2030-04-01", category: regulation,         evidence: announced,    title: "Japan FY2030 begins: benchmark target PUE ≤ 1.4 (target year ends 2031-03-31)", source_id: jp-meti-dc-benchmark}
+  - {date: "2030-06-01", category: expansion,          evidence: hypothetical, title: "Phase 3 expansion with on-site storage (fictional)", source_id: ds-scenarios}

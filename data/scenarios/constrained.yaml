@@ -1,0 +1,19 @@
+# Scenario input — classification: scenario assumption
+id: constrained
+label: "Capacity constrained"
+state_intent: constrained
+summary: >-
+  A large gas unit trips during a wind lull, the regional reserve margin goes
+  negative and the system operator instructs large users to cut import to the
+  firm level. A chiller fault later removes cooling capacity. The facility
+  sheds discretionary work in priority order and keeps interactive inference.
+steps: 240
+step_minutes: 1
+probe_step: 100
+events:
+  - {step: 40,  kind: source_availability, target: gas,  value: 0.60, reason: "Gas unit trip removes regional capacity."}
+  - {step: 40,  kind: source_availability, target: wind, value: 0.50, reason: "Wind lull lowers wind output."}
+  - {step: 80,  kind: cooling_capacity, value: 17, reason: "Chiller fault: cooling plant limited to 17 MW of IT heat."}
+  - {step: 140, kind: cooling_capacity, value: 30, reason: "Chiller repaired; cooling capacity restored."}
+  - {step: 150, kind: source_availability, target: gas,  value: 0.92, reason: "Gas unit returns to service."}
+  - {step: 150, kind: source_availability, target: wind, value: 1.00, reason: "Wind output recovers."}
