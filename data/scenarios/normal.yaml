@@ -1,0 +1,14 @@
+# Scenario input — classification: scenario assumption
+id: normal
+label: "Normal operation"
+state_intent: normal
+summary: >-
+  Grid-connected afternoon into evening. Wind and solar output vary, gas fills
+  the gap, and the evening demand rise shifts the mix, price and emissions.
+  No workload is shed.
+steps: 240
+step_minutes: 1
+probe_step: 100
+events:
+  - {step: 0,   kind: note, reason: "Run starts grid-connected at 15:00 with all workloads active."}
+  - {step: 120, kind: demand_factor, value: 1.04, reason: "Evening regional demand rise (+4%)."}

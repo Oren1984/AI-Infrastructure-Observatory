@@ -1,0 +1,5 @@
+streamlit==1.60.0
+plotly==6.3.0
+pandas==3.0.1
+pydantic==2.10.4
+PyYAML==6.0.3

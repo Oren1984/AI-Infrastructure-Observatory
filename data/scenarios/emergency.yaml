@@ -1,0 +1,23 @@
+# Scenario input — classification: scenario assumption (illustrative cascade)
+id: emergency
+label: "Emergency (grid loss)"
+state_intent: emergency
+summary: >-
+  Illustrative cascade: gas falls out, then oil-derived peakers, hydro, wind
+  and solar become unavailable in sequence until the grid is lost. The
+  facility islands, the UPS bridges, generators start and run until fuel is
+  exhausted, the battery carries a reduced load, inference is shut down in a
+  controlled way, and the facility recovers in stages once the grid returns.
+steps: 240
+step_minutes: 1
+probe_step: 100
+events:
+  - {step: 20,  kind: source_availability, target: gas,   value: 0.50, reason: "Gas supply disruption: half of gas capacity falls out."}
+  - {step: 35,  kind: source_availability, target: oil,   value: 0.00, reason: "Oil-derived peakers unavailable (fuel logistics)."}
+  - {step: 50,  kind: source_availability, target: hydro, value: 0.00, reason: "Hydro unavailable (reservoir at minimum operating level)."}
+  - {step: 60,  kind: source_availability, target: wind,  value: 0.00, reason: "Storm: wind turbines at cut-out speed."}
+  - {step: 70,  kind: source_availability, target: solar, value: 0.00, reason: "Heavy cloud and dusk: solar output lost."}
+  - {step: 200, kind: source_availability, target: gas,   value: 0.92, reason: "Gas supply restored."}
+  - {step: 200, kind: source_availability, target: oil,   value: 1.00, reason: "Peakers refuelled."}
+  - {step: 200, kind: source_availability, target: hydro, value: 1.00, reason: "Hydro available again."}
+  - {step: 200, kind: source_availability, target: wind,  value: 0.60, reason: "Storm passes; wind partially back."}

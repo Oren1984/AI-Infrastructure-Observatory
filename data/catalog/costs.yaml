@@ -1,0 +1,38 @@
+# Cost assumptions for the fictional ORF-1 facility. All values are
+# SCENARIO ASSUMPTIONS for comparison only — not quotes, tariffs or estimates
+# for any real project.
+catalog_version: "2026-11-10"
+currency: EUR
+price_basis: "2025 nominal, excluding VAT"
+location: "Ireland (illustrative)"
+classification: assumption
+source_id: ds-costs
+
+operating:
+  electricity:
+    basis: "Modelled regional marginal price at each step (simulated), energy component only; network and capacity charges excluded"
+    unit: "EUR/MWh"
+  diesel_eur_per_l: 1.45
+  water_eur_per_m3: 2.80
+  generator_maintenance_eur_per_run_hour: 135   # whole generator set (3 units)
+  period: "Per simulated run (240 minutes)"
+
+capital:
+  period: "One-off, phase 1 (24 MW IT)"
+  unit: "EUR million"
+  items:
+    - {category: "Building and civil",               value: 70}
+    - {category: "Electrical (substation, UPS, distribution)", value: 95}
+    - {category: "Mechanical and cooling",           value: 60}
+    - {category: "Standby generators and fuel system", value: 18}
+    - {category: "Battery energy storage",           value: 4.5}
+    - {category: "Network and security",             value: 25}
+    - {category: "Servers and accelerators",         value: 450}
+
+annual_fixed_operating:
+  period: "Per year"
+  unit: "EUR million"
+  items:
+    - {category: "Staff",               value: 6}
+    - {category: "Maintenance contracts", value: 9}
+    - {category: "Insurance",           value: 3}

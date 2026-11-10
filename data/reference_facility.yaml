@@ -1,0 +1,136 @@
+# Reference model for the AI Infrastructure Observatory, V1.0
+#
+# The facility is fictional. The region (Ireland, Dublin area) is real, but
+# every capacity, price and factor below is a SCENARIO ASSUMPTION chosen to
+# make the three operating states legible. None of these values describes a
+# real site, operator, or the actual Irish power system. Published reference
+# figures live in data/catalog/sources.yaml and are labelled there.
+version: "1.0.0"
+
+region:
+  name: "Dublin region, Ireland (illustrative regional system)"
+  country: "IE"
+  system_operator_note: >-
+    The regional grid is a simplified, scaled stand-in for a transmission
+    system. Sources limited to gas, oil-derived fuels, hydro, wind and solar
+    as required by the brief; interconnectors, coal/peat and pumped-storage
+    cycling are deliberately out of scope.
+  base_demand_mw: 5200
+  demand_swing: 0.06
+  start_hour: 15.0          # simulation clock starts at 15:00 local time
+  scarcity_price_eur_mwh: 1000
+  sources:
+    - {id: grid_wind,  label: "Wind (regional)",  fuel: wind,  capacity_mw: 4800, availability: 1.0,  profile: wind,  marginal_cost_eur_mwh: 0,   emission_tco2_mwh: 0.0,  water_consumption_l_mwh: 0}
+    - {id: grid_solar, label: "Solar (regional)", fuel: solar, capacity_mw: 1500, availability: 1.0,  profile: solar, marginal_cost_eur_mwh: 0,   emission_tco2_mwh: 0.0,  water_consumption_l_mwh: 0}
+    - {id: grid_hydro, label: "Hydro (regional)", fuel: hydro, capacity_mw: 230,  availability: 1.0,  profile: flat,  marginal_cost_eur_mwh: 8,   emission_tco2_mwh: 0.0,  water_consumption_l_mwh: null}
+    - {id: grid_gas,   label: "Natural gas",      fuel: gas,   capacity_mw: 4300, availability: 0.92, profile: flat,  marginal_cost_eur_mwh: 105, emission_tco2_mwh: 0.40, water_consumption_l_mwh: 750}
+    - {id: grid_oil,   label: "Oil-derived fuels (peakers)", fuel: oil, capacity_mw: 650, availability: 1.0, profile: flat, marginal_cost_eur_mwh: 260, emission_tco2_mwh: 0.75, water_consumption_l_mwh: 1100}
+
+facility:
+  name: "ORF-1 Reference AI Facility (fictional)"
+  classification: assumption
+  location_note: "Fictional facility placed in the Dublin region of Ireland for jurisdictional context."
+  grid_connection_mw: 34
+  firm_import_mw: 20
+  cooling_capacity_mw_it: 30
+  cooling_power_factor: 0.22
+  wue_l_per_kwh_it: 0.25
+  shed_discretionary_on_island: true
+
+  local_sources:
+    - id: onsite_solar
+      label: "On-site solar canopy"
+      fuel: solar
+      capacity_mw: 0.8
+      profile: solar
+      island_reachable: true
+      island_capable: true
+      note: "Behind-the-meter, grid-forming inverter assumed."
+    - id: private_wire_wind
+      label: "Private-wire wind farm"
+      fuel: wind
+      capacity_mw: 4.0
+      profile: wind
+      island_reachable: true
+      island_capable: false
+      note: "Electrically reachable but grid-following: cannot serve the facility once islanded."
+
+  battery:
+    power_mw: 6
+    energy_mwh: 6
+    initial_soc: 0.9
+    reserve_soc: 0.2
+    charge_mw: 2
+    round_trip_efficiency: 0.9
+    grid_support_allowed: true
+    island_capable: true
+
+  generators:
+    units: 3
+    unit_mw: 6
+    start_delay_steps: 2
+    fuel_l: 4000
+    consumption_l_per_mwh: 270
+    co2_kg_per_l: 2.68
+    nox_g_per_kwh: 6.0
+    grid_support_allowed: false   # policy: emergency use only (air-permit hours)
+    start_on_island: true
+
+  ups:
+    power_mw: 35
+    energy_mwh: 1.0
+    recharge_mw: 1.5
+
+  # Allocation order = critical-load order. Shutdown runs in reverse.
+  critical_load:
+    - {id: power_distribution, label: "Power distribution & controls", mw: 0.6,  it_load: false, tier: core}
+    - {id: observability,      label: "Minimum observability",         mw: 0.15, it_load: true,  tier: core}
+    - {id: network_security,   label: "Network & security services",   mw: 0.5,  it_load: true,  tier: core}
+    - {id: storage,            label: "Required storage",              mw: 0.4,  it_load: true,  tier: core}
+    - {id: serving_nodes,      label: "Serving nodes (CPU hosts)",     mw: 0.6,  it_load: true,  tier: inference}
+    - {id: accelerators_min,   label: "Accelerators & GPU memory (minimum inference pool)", mw: 1.8, it_load: true, tier: inference}
+
+  # Allocation priority after the critical load. Shedding runs in reverse:
+  # training, batch, optional, then interactive concurrency.
+  workloads:
+    - {id: interactive_full, label: "Interactive inference – full pool", it_mw: 7.0, kind: interactive, fractional: true}
+    - {id: optional,         label: "Optional work (evals, cache warm-up)", it_mw: 1.5, kind: optional}
+    - {id: batch,            label: "Batch inference & embeddings",  it_mw: 4.0, kind: batch}
+    - {id: training,         label: "Model training",                it_mw: 9.0, kind: training}
+
+  service:
+    baseline_req_per_s: 40
+    demand_swing: 0.10
+    slo_latency_s: 4.0
+    max_queue: 3000
+    route_small_threshold: 0.95
+    kv_cache_memory_pct: 35
+    large_model:
+      id: ref-large
+      label: "Reference-L (large model profile)"
+      replica_mw: 0.35
+      req_per_s_per_replica: 2.5
+      base_latency_s: 1.8
+      weights_memory_pct: 55
+      quality_note: "Full-quality answer."
+    small_model:
+      id: ref-small
+      label: "Reference-S (configured smaller model)"
+      replica_mw: 0.15
+      req_per_s_per_replica: 3.0
+      base_latency_s: 0.9
+      weights_memory_pct: 25
+      quality_note: "Shorter answer from the smaller model; reduced depth."
+
+  thresholds:
+    demand_response_margin: 0.03
+    demand_response_release_margin: 0.08
+    grid_collapse_ratio: 0.45
+    reconnect_margin: 0.05
+    reconnect_stable_steps: 5
+    restore_stable_steps: 4
+    cooling_headroom_alert_pct: 10
+    battery_low_soc: 0.3
+    fuel_low_pct: 20
+    latency_alert_s: 4.0
+    queue_alert: 500
