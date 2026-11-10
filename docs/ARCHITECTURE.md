@@ -61,7 +61,7 @@ All direct dependencies are pinned in `requirements.txt`. Two transitive package
 
 | Suite | What it covers |
 |---|---|
-| `tests/test_engine.py` | Dispatch limits, storage and fuel floors, zero capacity, islanding eligibility, cascade order and reason codes, critical-load order, inference gating, reserve rule, repeatable replay, alert de-duplication, emergency walkthrough, staged recovery order, supply/load balance, input validation, status cards = engine values |
+| `tests/test_engine.py` | Dispatch limits, storage and fuel floors, zero capacity, islanding eligibility, cascade order and reason codes, critical-load order, inference gating, reserve rule, repeatable replay, alert de-duplication, emergency walkthrough, staged recovery order, supply/load balance, event values and units (MW for sources; routing logs large-model capacity vs threshold in req/s, none during shutdown), input validation, status cards = engine values |
 | `tests/test_catalog_trace_metrics.py` | Jurisdiction coverage, classifications, metric lineage, request traces, prompt-free logging, CHK-09, CSV/JSON export |
 | `tests/test_app_ui.py` | Streamlit `AppTest`: app loads without exceptions, shows engine values, emergency walkthrough to controlled shutdown, Send request, Step and Reset, deep-link validation |
 | `tests/test_http_integration.py` | Real server: `/`, health, `/favicon.png`, manifest, with and without gzip; every static asset under 16-way concurrency; server log free of tracebacks |

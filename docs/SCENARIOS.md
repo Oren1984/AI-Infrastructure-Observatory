@@ -34,11 +34,11 @@ Training is shed. Batch, optional work and interactive inference keep running wi
 | 60 | Wind at cut-out | `UNAVAILABLE` |
 | 70 | Solar lost; regional available/demand < 0.45 | **Grid loss → island.** Grid sources become `UNREACHABLE`; discretionary work is paused; the UPS bridges; generators start |
 | 72 | Generators online (2-step start delay) | Islanded on generator (18 MW); chat on the large model |
-| 139 | Fuel exhausted (4,000 L) | Generator `EXHAUSTED`; battery carries 6 MW; chat **routed to the smaller model** |
+| 139 | Fuel exhausted (4,000 L) | Generator `EXHAUSTED`; battery carries 6 MW; large-model capacity (17.5 req/s) falls below the routing threshold (95% of demand), so chat is **routed to the smaller model** |
 | 184 | Battery reaches 20% reserve | **Controlled shutdown**: serving nodes and accelerators are shut down; core services stay on the reserve; users get an explicit *unavailable* answer |
 | 200 | Regional sources restored | Reconnection requires a margin ≥ 5% for 5 steps |
 | 204 | Grid reconnected | Staged recovery begins |
-| 207–223 | Restoration in priority order | critical chain → interactive full pool → optional → batch → training, each stage after 4 stable steps |
+| 207–223 | Restoration in priority order | critical chain (207, small model) → interactive full pool (211, back to the large model) → optional → batch → training, each stage after 4 stable steps |
 
 Before islanding, gas, oil, hydro, wind and solar can all contribute to the modelled grid mix. After islanding, only assets configured as electrically reachable and island-capable may supply the facility. The on-site solar canopy qualifies but has no output at night or under heavy cloud. The private-wire wind farm is reachable but grid-following, so its reason code is `NOT_ISLAND_CAPABLE` when it has output.
 
