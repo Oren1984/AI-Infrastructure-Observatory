@@ -80,7 +80,7 @@ class Battery(_Strict):
     island_capable: bool
 
     @model_validator(mode="after")
-    def _reserve_below_initial(self) -> "Battery":
+    def _reserve_below_initial(self) -> Battery:
         if self.reserve_soc > self.initial_soc:
             raise ValueError("battery.reserve_soc must not exceed battery.initial_soc")
         return self
@@ -179,7 +179,7 @@ class Facility(_Strict):
     thresholds: Thresholds
 
     @model_validator(mode="after")
-    def _checks(self) -> "Facility":
+    def _checks(self) -> Facility:
         if self.thresholds.demand_response_release_margin < self.thresholds.demand_response_margin:
             raise ValueError("demand_response_release_margin must be >= demand_response_margin")
         if self.firm_import_mw > self.grid_connection_mw:
@@ -214,7 +214,7 @@ class Scenario(_Strict):
     events: list[ScenarioEvent] = []
 
     @model_validator(mode="after")
-    def _probe_in_range(self) -> "Scenario":
+    def _probe_in_range(self) -> Scenario:
         if self.probe_step >= self.steps:
             raise ValueError("probe_step must be inside the run")
         for e in self.events:

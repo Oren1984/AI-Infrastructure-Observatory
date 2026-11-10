@@ -1,5 +1,7 @@
 # Behind the Chat — AI Infrastructure Observatory
 
+[![CI](https://github.com/Oren1984/AI-Infrastructure-Observatory/actions/workflows/ci.yml/badge.svg)](https://github.com/Oren1984/AI-Infrastructure-Observatory/actions/workflows/ci.yml)
+
 When you send a message to an AI chat service, the answer depends on more than the model. Somewhere a data center needs power, cooling, network, storage and accelerators, and all of them have to be up at once. This project makes that chain visible.
 
 It is an interactive Streamlit simulation of one **fictional** facility (ORF-1) in a **real** region (Dublin, Ireland). You send the same chat request during **normal operation**, a **capacity shortage** and a **grid outage**, and see what stays online, what slows down, what gets paused, and what each operating decision costs in money, emissions and water.
@@ -16,11 +18,13 @@ docker compose up --build
 
 Open http://localhost:8501. The container has a health check (`/_stcore/health`). No API keys, paid services or network access are needed at run time: all reference data ships with the repository.
 
-Tests (inside the container or a local Python 3.12 environment with `requirements-dev.txt`):
+Tests: unit, UI (Streamlit AppTest) and HTTP integration. Run them inside the container:
 
 ```bash
 docker compose exec observatory python -m pytest -q -p no:cacheprovider
 ```
+
+CI (GitHub Actions) runs lint, tests, a dependency audit and a Docker build with a health check on every pull request and every push to `main`.
 
 Deep links are supported, for example `http://localhost:8501/?scenario=emergency&t=186`.
 
@@ -75,7 +79,7 @@ Inference is only served when the whole critical chain is powered. When it isn't
 
 ## What is real and what is not
 
-- **Published**: regulatory texts and statistics, e.g. CSO's figure that data centres used 21% of Irish metered electricity in 2023, or the EU 2024/1364 PUE/WUE formulas. Each one carries a verification status and date.
+- **Published**: regulatory texts and statistics, e.g. CSO's figure that data centres used 21% of Irish metered electricity in 2023, or the EU 2024/1364 PUE/WUE formulas. EPA's diesel CO₂ factor is also published. Each one carries a verification status and date.
 - **Scenario assumption**: every capacity, price, emission factor and threshold of the fictional facility and its simplified regional grid.
 - **Simulated**: every time series, alert, trace and decision. The engine is deterministic, so a replay always produces identical values.
 

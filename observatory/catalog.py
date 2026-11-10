@@ -98,7 +98,7 @@ class GovernanceCatalog(_M):
     entries: list[GovernanceEntry]
 
     @model_validator(mode="after")
-    def _refs(self) -> "GovernanceCatalog":
+    def _refs(self) -> GovernanceCatalog:
         codes = {j.code for j in self.jurisdictions}
         controls = {c.id for c in self.controls}
         for e in self.entries:
@@ -164,7 +164,7 @@ class Catalogs(_M):
     costs: Costs
 
     @model_validator(mode="after")
-    def _source_refs(self) -> "Catalogs":
+    def _source_refs(self) -> Catalogs:
         ids = self.sources.by_id()
         refs = [e.source_id for e in self.governance.entries] + [m.source_id for m in self.timeline.milestones] + [self.costs.source_id]
         missing = sorted({r for r in refs if r not in ids})

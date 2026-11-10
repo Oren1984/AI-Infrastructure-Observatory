@@ -48,11 +48,31 @@ flowchart TD
 ## Deployment
 
 - `Dockerfile`: `python:3.12-slim`, pinned requirements, a non-root user and a `HEALTHCHECK` against `/_stcore/health`.
-- `docker-compose.yml`: one service on port 8501, read-only root filesystem with `tmpfs` for `/tmp` and the user home, and the same health check.
-- Tests ship in the image: `docker compose exec observatory python -m pytest -q -p no:cacheprovider`.
+- `docker-compose.yml`: one service on port 8501, read-only root filesystem with `tmpfs` for `/tmp` and the user home (owned by the app user), and the same health check.
 - Deep links: `?scenario=<normal|constrained|emergency>&t=<minute>` are validated and clamped.
+
+## Dependencies
+
+All direct dependencies are pinned in `requirements.txt`. Two transitive packages are pinned on purpose:
+- `starlette`: Streamlit ≤ 1.65 replaced Starlette's gzip responder in a way that broke with `starlette>=1.8`. Any response whose content type is excluded from compression (for example `/favicon.png`) failed with HTTP 500, `Expected ASGI message 'http.response.start'`. The overridden responder never forwarded the start message, which newer Starlette sends immediately for excluded types. This was reproduced deterministically with `curl -H 'Accept-Encoding: gzip' /favicon.png` and bisected to Starlette 1.8.0. Streamlit 1.66 rewrote the middleware; the project now uses Streamlit 1.66.1 with Starlette pinned to the tested 1.10.0.
+- `pillow==13.0.0`: fixes CVEs that `pip-audit` reports against Pillow 12.x. Pillow 13 requires Streamlit ≥ 1.66.
+
+## Tests and CI
+
+| Suite | What it covers |
+|---|---|
+| `tests/test_engine.py` | Dispatch limits, storage and fuel floors, zero capacity, islanding eligibility, cascade order and reason codes, critical-load order, inference gating, reserve rule, repeatable replay, alert de-duplication, emergency walkthrough, staged recovery order, supply/load balance, input validation, status cards = engine values |
+| `tests/test_catalog_trace_metrics.py` | Jurisdiction coverage, classifications, metric lineage, request traces, prompt-free logging, CHK-09, CSV/JSON export |
+| `tests/test_app_ui.py` | Streamlit `AppTest`: app loads without exceptions, shows engine values, emergency walkthrough to controlled shutdown, Send request, Step and Reset, deep-link validation |
+| `tests/test_http_integration.py` | Real server: `/`, health, `/favicon.png`, manifest, with and without gzip; every static asset under 16-way concurrency; server log free of tracebacks |
+
+`.github/workflows/ci.yml` runs on pull requests and pushes to `main`:
+1. `ruff check` and `pytest`.
+2. `pip-audit` on the pinned requirements.
+3. `docker compose up --build`, wait for `healthy`, HTTP smoke checks (including gzip `/favicon.png`), the test suite inside the container, and a log scan that fails on any traceback.
 
 ## Design notes
 
-- The clock is a number input with a progress bar instead of `st.slider`. In right-to-left browser locales (for example Hebrew), Streamlit's slider draws its thumb mirrored, so the position would misreport the clock.
+- The clock is a number input with a progress bar instead of `st.slider`. In right-to-left browser locales (for example Hebrew), Streamlit's slider draws its thumb mirrored. Hebrew and English locales were checked at 1440 px and 390 px: no slider elements, no horizontal overflow, and the clock and progress agree.
+- Control and heading icons use Streamlit's bundled Material Symbols (`:material/...:`), not emoji, so they render the same in every browser, including headless screenshot capture.
 - Colors follow an Okabe–Ito-based palette and are always paired with text or icons (state badges, ✔/⏱/✖ trace markers, labelled state bands on charts).

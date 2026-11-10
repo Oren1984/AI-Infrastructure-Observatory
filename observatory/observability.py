@@ -32,7 +32,8 @@ def service_health(row: dict, load_reasons: dict[str, str]) -> list[dict]:
     return out
 
 
-def control_checks(rows: list[dict], events: list[Event], decisions: list[dict], *, mcp_hours_limit: float = 500.0) -> list[dict]:
+def control_checks(rows: list[dict], events: list[Event], decisions: list[dict], *, mcp_hours_limit: float = 500.0,
+                   dispatchable_mw: float | None = None, connection_mw: float | None = None) -> list[dict]:
     """Evaluate simulated control checks up to the current cursor."""
     row = rows[-1]
     gen_h = row["generator_run_min"] / 60
@@ -57,4 +58,8 @@ def control_checks(rows: list[dict], events: list[Event], decisions: list[dict],
         ("CHK-08", "CTL-EN-01", "Energy and water KPI inputs captured (E_DC, E_IT, W_IN)",
          "Pass", "Per-step energy and water recorded by the engine"),
     ]
+    if dispatchable_mw is not None and connection_mw is not None:
+        checks.append(("CHK-09", "CTL-GRID-05", "On-site dispatchable capacity matches grid connection (CRU2025236, ≥ 10 MVA)",
+                       "Pass" if dispatchable_mw >= connection_mw else "Gap",
+                       f"{dispatchable_mw:.0f} MW generators + battery vs {connection_mw:.0f} MW connection (de-rating not modelled)"))
     return [{"Check": c, "Control": ctl, "Description": d, "Result": r, "Evidence": ev} for c, ctl, d, r, ev in checks]

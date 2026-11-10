@@ -164,7 +164,7 @@ class LoadManager:
         inference_ok = not chain_broken
 
         # ---- workloads
-        for idx, b in enumerate(self.blocks):
+        for b in self.blocks:
             if b.tier != "workload":
                 continue
             stage_idx = self._stage_of(b.id)

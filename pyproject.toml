@@ -1,0 +1,11 @@
+# Tool configuration only (the project is not packaged).
+[tool.ruff]
+target-version = "py312"
+line-length = 150
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E731", "E501"]  # long UI copy and data rows are kept on one line
+
+[tool.ruff.lint.per-file-ignores]
+"app/streamlit_app.py" = ["E402"]

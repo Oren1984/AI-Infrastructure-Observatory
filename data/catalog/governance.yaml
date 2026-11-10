@@ -117,18 +117,18 @@ entries:
     jurisdiction: IE
     level: national
     issuing_authority: "Commission for Regulation of Utilities"
-    instrument: "Large Energy Users Connection Policy decision (reported as CRU/2025236)"
+    instrument: "Large Energy Users Connection Policy decision (CRU2025236); direction to System Operators under s.34 Electricity Regulation Act 1999"
     source_id: ie-cru-leu-2025
-    section: null
-    publication_date: "2025-12-12 (secondary sources)"
-    effective_date: null
+    section: "Sections 3.3–3.5 (requirements by MIC; renewable electricity requirement)"
+    publication_date: "2025-12-12"
+    effective_date: "Applies to new connection applications for new or additional capacity; supersedes Direction CRU/21/124"
     domain: facility
     legal_status: binding
-    scope: "Reported: new data centre connections require dispatchable on-site or proximate generation/storage; operators may be asked to reduce demand."
+    scope: "Data centres ≥ 10 MVA must provide dispatchable onsite or proximate generation and/or storage matching their MIC (de-rated); ≥ 1 MVA must meet ≥ 80% of annual demand with additional Irish renewable electricity on a 6-year glide path."
     applicability: applies
     related_control: CTL-GRID-05
-    evidence_expected: "Connection agreement terms; dispatchable capacity records; demand-reduction response log."
-    uncertainty: "COVERAGE GAP: official decision paper not retrieved; content known only from secondary sources."
+    evidence_expected: "Connection agreement; de-rated dispatchable capacity records; renewable electricity matching evidence."
+    uncertainty: "Read from the official decision paper; detailed de-rating rules and transitional provisions not modelled. The reference configuration (24 MW dispatchable vs 34 MW connection) is shown as a demonstration gap (CHK-09), not a verdict."
   # ----------------------------------------------------------------- US
   - id: GOV-US-01
     jurisdiction: US
@@ -198,69 +198,69 @@ entries:
   - id: GOV-AU-03
     jurisdiction: AU
     level: national
-    issuing_authority: "NABERS"
-    instrument: "NABERS Energy for Data Centres"
+    issuing_authority: "NABERS (NSW Department of Climate Change, Energy, the Environment and Water)"
+    instrument: "NABERS for Data Centres — Energy rating (Infrastructure, Whole facility)"
     source_id: au-nabers-dc
-    section: null
+    section: "How it works; Ratings & tools"
     publication_date: null
     effective_date: null
     domain: facility
     legal_status: voluntary_standard
-    scope: "Energy rating for data centres (as generally described)."
+    scope: "1–6 star operational rating benchmarked against peers; independent verification of metrics such as PUE; includes a Renewable Energy Indicator."
     applicability: comparison_only
     related_control: CTL-EN-01
-    evidence_expected: "Rating certificate."
-    uncertainty: "COVERAGE GAP: official page not retrieved."
+    evidence_expected: "Rating certificate and assessment report."
+    uncertainty: "The page does not state whether a rating is mandatory for data centres; voluntary status is inferred from the page's framing and not confirmed."
   # ----------------------------------------------------------------- JP
   - id: GOV-JP-01
     jurisdiction: JP
     level: national
     issuing_authority: "Agency for Natural Resources and Energy (METI)"
-    instrument: "Act on Rationalizing Energy Use — benchmark system for data centre business"
+    instrument: "Act on Rationalizing Energy Use and Shifting to Non-fossil Energy — data centre benchmark and new measures"
     source_id: jp-meti-dc-benchmark
-    section: null
-    publication_date: null
-    effective_date: null
+    section: "Benchmark system (data centre business); new measures from April 2026"
+    publication_date: "2026-05-20 (ANRE explainer; corrected 2026-06-04)"
+    effective_date: "2026-04 (new measures); FY2030 benchmark target; FY2029 new-build standard"
     domain: facility
     legal_status: binding
-    scope: "Reported: designated operators report PUE against a target of 1.4 by FY2030."
+    scope: "Specified operators report PUE against a benchmark target of ≤ 1.4 by FY2030; from FY2026 submissions report data centre items and publish them; data centres newly built from FY2029 must meet PUE ≤ 1.3, otherwise a rationalisation plan is required."
     applicability: comparison_only
     related_control: CTL-EN-01
-    evidence_expected: "Periodic report with PUE calculation."
-    uncertainty: "COVERAGE GAP: official page returned HTTP 403; secondary sources disagree on whether 1.4 is a target or a limit."
+    evidence_expected: "Periodic report with PUE calculation; public disclosure by fiscal year end."
+    uncertainty: "Verified from the official ANRE explainer page, not the statutory notice text; the 1.4 value is a benchmark target, the 1.3 value a standard for new builds."
   - id: GOV-JP-02
     jurisdiction: JP
     level: national
     issuing_authority: "METI and MIC"
-    instrument: "AI Guidelines for Business"
+    instrument: "AI Guidelines for Business Ver 1.0"
     source_id: jp-meti-ai-guidelines
     section: null
-    publication_date: "2024-04-19 (Ver 1.0, secondary sources)"
+    publication_date: "2024-04-19"
     effective_date: null
     domain: ai_service
     legal_status: official_guidance
-    scope: "Non-binding guidance for AI developers, providers and users (as reported)."
+    scope: "Integrated guidance for AI business operators compiled by the two ministries."
     applicability: comparison_only
     related_control: CTL-AI-04
     evidence_expected: "Governance documentation aligned to the guidelines."
-    uncertainty: "COVERAGE GAP: official page not retrieved; newer versions reportedly exist."
+    uncertainty: "Press release verified; guideline PDF not read and later versions not reviewed. 'Guidance' reflects the instrument type; the press release does not state legal effect."
   # ----------------------------------------------------------------- IL
   - id: GOV-IL-01
     jurisdiction: IL
     level: national
     issuing_authority: "Ministry of Innovation, Science and Technology; Ministry of Justice"
-    instrument: "Policy on Artificial Intelligence Regulation and Ethics (2023)"
+    instrument: "Israel's Policy on Artificial Intelligence Regulation and Ethics (Decision No. 212)"
     source_id: il-ai-policy-2023
-    section: null
-    publication_date: "December 2023 (secondary sources)"
+    section: "Main policy recommendations"
+    publication_date: "2023-12-17"
     effective_date: null
     domain: ai_service
     legal_status: official_guidance
-    scope: "Reported: sectoral, risk-based soft-regulation approach."
+    scope: "Recommends empowering sector regulators, a risk-based approach, 'soft' regulation and OECD-aligned ethical principles for private-sector AI."
     applicability: comparison_only
     related_control: CTL-AI-04
-    evidence_expected: "Not determined."
-    uncertainty: "COVERAGE GAP: official PDF retrieved but not machine-readable; contents not verified."
+    evidence_expected: "Risk mapping and governance aligned to sector-regulator guidance."
+    uncertainty: "Official English summary read; the full policy PDF is a scanned image and was not machine-read."
   - id: GOV-IL-02
     jurisdiction: IL
     level: national
@@ -269,11 +269,11 @@ entries:
     source_id: il-privacy-amend13
     section: null
     publication_date: null
-    effective_date: "2025-08-14 (secondary sources)"
+    effective_date: "2025-08-14"
     domain: ai_service
     legal_status: binding
-    scope: "Reported: expanded definitions, enforcement powers and administrative fines."
+    scope: "Introduces 'data with special sensitivity', data protection officer duties and administrative enforcement (per PPA guidance and translation)."
     applicability: comparison_only
     related_control: CTL-PRIV-06
     evidence_expected: "Data inventory; security procedures; privacy officer where required."
-    uncertainty: "COVERAGE GAP: official text not retrieved."
+    uncertainty: "Entry-into-force date from official PPA guidance; the official Hebrew Reshumot text was not read and the English translation is unofficial."

@@ -13,14 +13,16 @@ import time
 import uuid
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+APP_DIR = Path(__file__).resolve().parent
+ROOT = APP_DIR.parent
+for _p in (str(ROOT), str(APP_DIR)):  # repo root (observatory) and app dir (charts), also under AppTest
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
+import charts  # noqa: E402
 import pandas as pd  # noqa: E402
 import streamlit as st  # noqa: E402
 
-import charts  # noqa: E402
 from observatory.catalog import load_catalogs  # noqa: E402
 from observatory.config import load_reference, load_scenarios  # noqa: E402
 from observatory.energy import REASON_TEXT  # noqa: E402
@@ -96,7 +98,7 @@ LAST = len(run.steps) - 1
 
 
 # ----------------------------------------------------------------- header
-st.markdown("## ⚡ Behind the Chat — AI Infrastructure Observatory")
+st.markdown("## :material/bolt: Behind the Chat — AI Infrastructure Observatory")
 st.markdown(
     "<div class='obs-banner'>One chat request, one fictional facility (<b>ORF-1</b>, Dublin region, Ireland), three operating "
     "states. <b>Telemetry is simulated</b>; capacities and prices are <b>scenario assumptions</b>; regulatory and statistical "
@@ -113,24 +115,24 @@ if selected != ss.scenario_id:
     new_run(selected)
     st.rerun()
 c[1].write("")
-if c[1].button("▶ Run scenario", type="primary", width="stretch", help="Start a fresh run of the selected scenario and play it"):
+if c[1].button("Run scenario", icon=":material/play_circle:", type="primary", width="stretch", help="Start a fresh run of the selected scenario and play it"):
     new_run(selected, play=True)
     st.rerun()
 c[2].write("")
-if c[2].button("⏸ Pause" if ss.playing else "⏵ Play", width="stretch"):
+if c[2].button("Pause" if ss.playing else "Play", icon=":material/pause:" if ss.playing else ":material/play_arrow:", width="stretch"):
     ss.playing = not ss.playing and ss.cursor < LAST
     st.rerun()
 c[3].write("")
-if c[3].button("⏭ Step", width="stretch", help="Advance one simulated minute"):
+if c[3].button("Step", icon=":material/skip_next:", width="stretch", help="Advance one simulated minute"):
     ss.playing = False
     ss.cursor = min(LAST, ss.cursor + 1)
     st.rerun()
 c[4].write("")
-if c[4].button("↺ Reset", width="stretch", help="New run ID, clock back to T+0, request log cleared"):
+if c[4].button("Reset", icon=":material/restart_alt:", width="stretch", help="New run ID, clock back to T+0, request log cleared"):
     new_run(ss.scenario_id)
     st.rerun()
 c[5].write("")
-if c[5].button("⟲ Replay", width="stretch", help="Replay this run from T+0 (identical values)"):
+if c[5].button("Replay", icon=":material/replay:", width="stretch", help="Replay this run from T+0 (identical values)"):
     ss.cursor = 0
     ss.playing = True
     st.rerun()
@@ -159,7 +161,7 @@ source_reasons = run.source_reasons[cursor]
 df = pd.DataFrame(run.steps)
 st.markdown(
     f"<span class='obs-muted'>Run <code>{run.run_id[:8]}</code> · {html.escape(run.scenario.label)} · "
-    f"{html.escape(row['sim_time'])} · {'▶ playing' if ss.playing else '⏸ paused'}</span>", unsafe_allow_html=True)
+    f"{html.escape(row['sim_time'])} · {'playing' if ss.playing else 'paused'}</span>", unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------------- helpers
@@ -213,18 +215,20 @@ def all_events() -> list:
     return sorted(evs, key=lambda e: (e.step, e.event_id))
 
 
-tabs = st.tabs(["🏠 Overview", "🔎 Request trace", "⚡ Power & facility", "🧠 AI service",
-                "❄ Cooling, environment & community", "💶 Cost & governance", "🛡 Security & observability",
-                "⚖ Scenario comparison", "📅 2023–2030", "📚 Evidence catalog", "❓ Help Center"])
+tabs = st.tabs([":material/home: Overview", ":material/route: Request trace", ":material/bolt: Power & facility",
+                ":material/memory: AI service", ":material/ac_unit: Cooling, environment & community",
+                ":material/euro: Cost & governance", ":material/shield: Security & observability",
+                ":material/compare_arrows: Scenario comparison", ":material/calendar_month: 2023–2030",
+                ":material/menu_book: Evidence catalog", ":material/help: Help Center"])
 
 # ================================================================ OVERVIEW
 with tabs[0]:
     left, right = st.columns([1, 1.45], gap="large")
     with left:
-        st.markdown("#### 💬 Simulated chat")
+        st.markdown("#### :material/chat: Simulated chat")
         prompt = st.text_area("Your request (same request in every scenario)", value=DEFAULT_PROMPT, height=90, key="prompt")
         b1, b2 = st.columns([1, 1.6])
-        if b1.button("📨 Send request", type="primary", width="stretch"):
+        if b1.button("Send request", icon=":material/send:", type="primary", width="stretch"):
             ss.req_seq = ss.get("req_seq", 0) + 1
             tr = build_trace(row, run.run_id, ss.req_seq, load_reasons)
             record_request(ss.req_recorder, tr, len(prompt))
@@ -232,9 +236,9 @@ with tabs[0]:
         b2.caption("The prompt is shown here only. The event log stores a correlation ID, never the text.")
         if ss.traces:
             tr = ss.traces[-1]
-            with st.chat_message("user"):
+            with st.chat_message("user", avatar=":material/person:"):
                 st.write(prompt)
-            with st.chat_message("assistant", avatar="🤖"):
+            with st.chat_message("assistant", avatar=":material/smart_toy:"):
                 st.markdown(f"**{QUALITY_BADGE.get(tr.outcome, tr.outcome)}** · `{tr.request_id}` · {tr.sim_time}")
                 st.text(tr.response_text)
                 st.caption(f"Model: {tr.model} · Latency: " + ("no response" if tr.total_latency_s is None else f"{tr.total_latency_s:.2f} s") + " · see the Request trace tab")
@@ -244,11 +248,11 @@ with tabs[0]:
         st.write(run.scenario.summary)
 
     with right:
-        st.markdown("#### 🏭 Infrastructure right now")
+        st.markdown("#### :material/factory: Infrastructure right now")
         cards = status_cards(row)
         for i in range(0, 6, 3):
             cols = st.columns(3)
-            for col, cd in zip(cols, cards[i:i + 3]):
+            for col, cd in zip(cols, cards[i:i + 3], strict=True):
                 col.markdown(card(cd["title"], cd["value"], cd["detail"]), unsafe_allow_html=True)
         chain = "all powered" if row["inference_ok"] else ("core only" if row["core_ok"] else "down")
         chips = [
@@ -264,13 +268,13 @@ with tabs[0]:
     st.plotly_chart(charts.power_stack(df, cursor), width="stretch", key="ov_power")
     e1, e2 = st.columns([1.3, 1])
     with e1:
-        st.markdown("#### 🔔 Latest events")
+        st.markdown("#### :material/notifications: Latest events")
         recent = [e for e in all_events() if e.event_type != "source_status"][-8:][::-1]
         st.dataframe(pd.DataFrame([{"Time": e.sim_time.split(" ")[0], "Severity": e.severity.upper(), "Component": e.component,
                                     "Event": e.event_type, "Reason": e.reason} for e in recent]),
                      hide_index=True, width="stretch")
     with e2:
-        st.markdown("#### 🧮 Metric detail")
+        st.markdown("#### :material/calculate: Metric detail")
         metric_panel("overview")
 
 # ============================================================ REQUEST TRACE
@@ -323,7 +327,7 @@ with tabs[2]:
         ("Battery", f"{row['supply_battery_mw']:.1f} MW · {row['battery_soc_pct']:.0f}% SoC", source_reasons.get("battery", "")),
         ("Generator", f"{row['supply_generator_mw']:.1f} MW · fuel {row['generator_fuel_pct']:.0f}%", f"{row['generator_mode']} · {gen_reason}"),
     ]
-    for col, (t, v, d) in zip(ind, indicators):
+    for col, (t, v, d) in zip(ind, indicators, strict=True):
         col.markdown(card(t, v, d), unsafe_allow_html=True)
     st.plotly_chart(charts.power_stack(df, cursor), width="stretch", key="pw_power")
     p1, p2 = st.columns(2)
@@ -447,7 +451,10 @@ with tabs[6]:
         st.dataframe(pd.DataFrame(service_health(row, load_reasons)), hide_index=True, width="stretch")
     with h2:
         st.markdown("##### Simulated control checks (demonstration evidence, not a compliance verdict)")
-        st.dataframe(pd.DataFrame(control_checks(rows_to_cursor, all_events(), [d for d in run.decisions if d["step"] <= cursor])),
+        st.dataframe(pd.DataFrame(control_checks(
+            rows_to_cursor, all_events(), [d for d in run.decisions if d["step"] <= cursor],
+            dispatchable_mw=REF.facility.generators.capacity_mw + REF.facility.battery.power_mw,
+            connection_mw=REF.facility.grid_connection_mw)),
                      hide_index=True, width="stretch")
     st.markdown("##### Active alerts")
     active = row["active_alerts"]
@@ -476,8 +483,8 @@ with tabs[6]:
     edf = pd.DataFrame([e.as_dict() for e in filt]) if filt else pd.DataFrame(columns=["step"])
     st.dataframe(edf, hide_index=True, width="stretch", height=320)
     d1, d2, d3 = st.columns([1, 1, 3])
-    d1.download_button("⬇ Export CSV", events_to_csv(filt), file_name=f"events-{run.run_id[:8]}.csv", mime="text/csv")
-    d2.download_button("⬇ Export JSON", events_to_json(filt), file_name=f"events-{run.run_id[:8]}.json", mime="application/json")
+    d1.download_button("Export CSV", events_to_csv(filt), file_name=f"events-{run.run_id[:8]}.csv", mime="text/csv", icon=":material/download:")
+    d2.download_button("Export JSON", events_to_json(filt), file_name=f"events-{run.run_id[:8]}.json", mime="application/json", icon=":material/download:")
     d3.caption(f"{len(filt)} of {len(evs)} events · repeated alert evaluations suppressed by de-duplication: "
                f"{sum(run.suppressed_alerts.values())} (whole run).")
 
@@ -489,7 +496,7 @@ with tabs[7]:
                                 value=list(SCENARIOS.values())[0].probe_step, step=1, key="probe"))
     cols = st.columns(len(comp_runs))
     summary_rows = []
-    for col, (sid, r) in zip(cols, comp_runs.items()):
+    for col, (sid, r) in zip(cols, comp_runs.items(), strict=True):
         pr = r.at(probe)
         tr = build_trace(pr, r.run_id, 0, r.load_reasons[probe])
         with col:
@@ -594,15 +601,15 @@ with tabs[10]:
 """)
     with st.expander("Replay a scenario"):
         st.markdown("""
-1. Pick a scenario and press **▶ Run scenario** (fresh run ID, clock at T+0, playing).
-2. **⏸ Pause**, **⏭ Step** one minute, or type a minute into the **simulation clock**.
-3. Press **📨 Send request** at any moment to trace the same request through the current state.
-4. **⟲ Replay** restarts the same run from T+0 — values are identical because the simulation is deterministic.
-5. **↺ Reset** starts a new run ID and clears the request log for this browser session only; other visitors are unaffected.
+1. Pick a scenario and press **Run scenario** (fresh run ID, clock at T+0, playing).
+2. **Pause**, **Step** one minute, or type a minute into the **simulation clock**.
+3. Press **Send request** at any moment to trace the same request through the current state.
+4. **Replay** restarts the same run from T+0 — values are identical because the simulation is deterministic.
+5. **Reset** starts a new run ID and clears the request log for this browser session only; other visitors are unaffected.
 """)
     with st.expander("Published reference data vs simulated telemetry"):
         st.markdown("""
-- **Published** — figures or text from official sources (e.g. CSO's 21% data-centre share of Irish metered electricity in 2023; EU 2024/1364 KPI formulas). Each has a verification status and date in the Evidence catalog. Sources that could not be retrieved are marked as **gaps**, never filled in.
+- **Published** — figures or text from official sources (e.g. CSO's 21% data-centre share of Irish metered electricity in 2023; EU 2024/1364 KPI formulas; the EPA diesel CO₂ factor). Each has a verification status and date in the Evidence catalog. Sources that could not be retrieved are marked as **gaps**, never filled in.
 - **Scenario assumption** — every capacity, price, emission factor and threshold of the fictional ORF-1 facility and its regional grid (`data/reference_facility.yaml`, `data/scenarios/`, `data/catalog/costs.yaml`).
 - **Simulated** — every time series, alert, decision and trace produced by the deterministic engine at run time.
 - Control checks are **demonstration evidence**, not a compliance verdict.

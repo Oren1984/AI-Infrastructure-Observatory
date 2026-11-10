@@ -1,4 +1,11 @@
-streamlit==1.60.0
+streamlit==1.66.1
+# Explicit pins for transitive packages that matter for correctness or security:
+# - starlette: Streamlit <=1.65's gzip middleware broke with starlette>=1.8 (HTTP 500 on
+#   /favicon.png, "Expected ASGI message 'http.response.start'"). 1.66 rewrote it;
+#   tests/test_http_integration.py guards the regression.
+# - pillow 13.0.0: fixes CVEs reported by pip-audit against 12.x (needs streamlit>=1.66).
+starlette==1.10.0
+pillow==13.0.0
 plotly==6.3.0
 pandas==3.0.1
 pydantic==2.10.4

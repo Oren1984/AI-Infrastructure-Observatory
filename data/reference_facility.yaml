@@ -71,7 +71,7 @@ facility:
     start_delay_steps: 2
     fuel_l: 4000
     consumption_l_per_mwh: 270
-    co2_kg_per_l: 2.68
+    co2_kg_per_l: 2.70           # published: EPA GHG Emission Factors Hub 2025, 10.21 kg CO2/gal ÷ 3.785 L/gal
     nox_g_per_kwh: 6.0
     grid_support_allowed: false   # policy: emergency use only (air-permit hours)
     start_on_island: true

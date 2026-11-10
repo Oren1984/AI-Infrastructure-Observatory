@@ -7,8 +7,8 @@ values actually used, so the UI can show the calculation behind the number.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Callable
 
 from .catalog import Costs
 
@@ -97,11 +97,12 @@ METRICS: dict[str, MetricDef] = {m.id: m for m in [
               fn=lambda r, c: _sum(r, "energy_mwh")),
     MetricDef("grid_co2", "Grid electricity emissions (location-based)", "t CO₂", "run",
               "Σ grid import × Δt × Σ_i (share_i × EF_i)", ("grid_energy_mwh", "grid_co2_t"), "simulated", SIM,
-              ("Emission factors: gas 0.40, oil 0.75, renewables 0 t/MWh (combustion only).",),
+              ("Grid emission factors gas 0.40, oil 0.75, renewables 0 t/MWh are scenario assumptions (combustion only), not published grid factors.",),
               boundary="Scope 2, location-based; excludes generator fuel to avoid double counting.",
               fn=lambda r, c: _sum(r, "grid_co2_t")),
-    MetricDef("gen_co2", "Generator emissions", "t CO₂", "run", "Σ fuel litres × 2.68 kg/L ÷ 1000",
-              ("generator_litres", "generator_co2_t"), "simulated", SIM, ("Diesel combustion factor 2.68 kg CO₂/L.",),
+    MetricDef("gen_co2", "Generator emissions", "t CO₂", "run", "Σ fuel litres × 2.70 kg/L ÷ 1000",
+              ("generator_litres", "generator_co2_t"), "simulated", SIM + ("epa-ghg-hub-2025",),
+              ("Diesel factor 2.70 kg CO₂/L is published (EPA 2025: 10.21 kg/gal); fuel burn 270 L/MWh is an assumption.",),
               boundary="Scope 1, on-site combustion only.", fn=lambda r, c: _sum(r, "generator_co2_t")),
     MetricDef("gen_nox", "Generator NOx (local air pollution)", "kg", "run", "Σ generator MWh × 1000 × 6 g/kWh ÷ 1000",
               ("supply_generator_mw", "generator_nox_kg"), "assumption", SIM,

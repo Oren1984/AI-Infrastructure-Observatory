@@ -138,76 +138,85 @@ sources:
     excerpt: "Scheme established under the 2007 Act; numeric thresholds not shown on the retrieved page."
 
   - id: au-nabers-dc
-    title: "NABERS Energy for Data Centres"
+    title: "NABERS for Data Centres (Energy rating: Infrastructure and Whole facility)"
     publisher: "NABERS (NSW Department of Climate Change, Energy, the Environment and Water)"
     url: "https://www.nabers.gov.au/ratings/spaces-we-rate/data-centres"
-    edition: "Not retrieved"
-    reference_date: null
+    edition: "Web page retrieved 2026-11-10 (no edition date shown)"
+    reference_date: "2026-11-10"
     verification_date: "2026-11-10"
-    verification_status: not_verified
+    verification_status: verified_primary
     classification: published
-    used_for: "Governance catalog: voluntary rating (gap — page timed out)."
-    excerpt: null
-
+    used_for: "Governance catalog: data centre energy rating (comparison jurisdiction)."
+    excerpt: "1–6 star rating; Energy rating includes independent verification of metrics such as PUE (paraphrase)."
   - id: jp-meti-dc-benchmark
-    title: "Energy Conservation Act benchmark system — data centre business (PUE)"
+    title: "New measures for data centres under the Act on Rationalizing Energy Use and Shifting to Non-fossil Energy (benchmark system, PUE)"
     publisher: "Agency for Natural Resources and Energy, METI (Japan)"
     url: "https://www.enecho.meti.go.jp/about/special/johoteikyo/data_center2026.html"
-    edition: "Not retrieved (HTTP 403)"
-    reference_date: null
+    edition: "Article published 2026-05-20, corrected 2026-06-04 (Japanese)"
+    reference_date: "2026-05-20"
     verification_date: "2026-11-10"
-    verification_status: secondary_only
+    verification_status: verified_primary
     classification: published
-    used_for: "Governance catalog: PUE benchmark (gap — secondary sources only)."
-    excerpt: null
-
+    used_for: "Governance catalog: PUE benchmark target, new-build efficiency standard, reporting and disclosure."
+    excerpt: "Benchmark target PUE ≤ 1.4 by FY2030; data centres newly built from FY2029 must meet PUE ≤ 1.3; measures in force from April 2026 (paraphrase)."
   - id: jp-meti-ai-guidelines
-    title: "AI Guidelines for Business (Ver 1.0)"
+    title: "AI Guidelines for Business Ver 1.0"
     publisher: "METI and Ministry of Internal Affairs and Communications (Japan)"
     url: "https://www.meti.go.jp/english/press/2024/0419_002.html"
-    edition: "Not retrieved (HTTP 403); later versions reported by secondary sources"
-    reference_date: null
+    edition: "Joint press release, 19 April 2024 (Ver 1.0); later versions not reviewed"
+    reference_date: "2024-04-19"
     verification_date: "2026-11-10"
-    verification_status: not_verified
+    verification_status: partially_verified
     classification: published
-    used_for: "Governance catalog: AI governance guidance (gap)."
-    excerpt: null
-
+    used_for: "Governance catalog: AI governance guidance (comparison jurisdiction)."
+    excerpt: "METI and MIC integrated three earlier guidelines and compiled Ver 1.0 on 19 April 2024 (paraphrase). Guideline PDF not read."
   - id: il-ai-policy-2023
-    title: "Israel's Policy on Artificial Intelligence Regulation and Ethics (2023)"
+    title: "Israel's Policy on Artificial Intelligence Regulation and Ethics (Decision No. 212)"
     publisher: "Ministry of Innovation, Science and Technology with the Ministry of Justice (Israel)"
-    url: "https://www.gov.il/BlobFolder/policy/ai_2023/en/Israels%20AI%20Policy%202023.pdf"
-    edition: "Official PDF retrieved but scanned/not machine-readable"
-    reference_date: null
+    url: "https://www.gov.il/en/pages/ai_2023"
+    edition: "Published 17 December 2023 (gov.il policy page)"
+    reference_date: "2023-12-17"
     verification_date: "2026-11-10"
-    verification_status: not_verified
+    verification_status: verified_primary
     classification: published
-    used_for: "Governance catalog: AI policy (gap — contents not verified)."
-    excerpt: null
-
+    used_for: "Governance catalog: national AI policy (comparison jurisdiction)."
+    excerpt: "Recommends sector-specific regulators, a risk-based approach and 'soft' regulation (paraphrase of the official summary)."
   - id: il-privacy-amend13
-    title: "Protection of Privacy Law, 5741-1981 — Amendment No. 13"
-    publisher: "Knesset / Privacy Protection Authority (Israel)"
-    url: null
-    edition: "Official text not retrieved"
-    reference_date: null
+    title: "Privacy Protection Law, 5741-1981 — Amendment No. 13"
+    publisher: "Privacy Protection Authority (Israel), Ministry of Justice"
+    url: "https://www.gov.il/BlobFolder/legalinfo/the_board_role/en/Role_of_the_Board.pdf"
+    edition: "PPA Guidance No. 1/2024 (English); PPA unofficial consolidated translation 'Updated After Amendment 13'"
+    reference_date: "2025-08-14"
     verification_date: "2026-11-10"
-    verification_status: secondary_only
+    verification_status: partially_verified
     classification: published
-    used_for: "Governance catalog: privacy (gap — secondary sources report entry into force in August 2025)."
-    excerpt: null
-
+    used_for: "Governance catalog: privacy law reform (comparison jurisdiction)."
+    excerpt: "PPA guidance: Amendment No. 13 approved by the Knesset and in force from 14 August 2025 (paraphrase). Official Reshumot text not read."
   - id: ie-cru-leu-2025
-    title: "CRU Large Energy Users Connection Policy — decision paper (reported as CRU/2025236)"
+    title: "Large Energy Users Connection Policy — decision paper CRU2025236"
     publisher: "Commission for Regulation of Utilities (Ireland)"
-    url: null
-    edition: "Official decision paper not retrieved"
-    reference_date: null
+    url: "https://www.cru.ie/publications/28573"
+    edition: "Decision paper published 12 December 2025 (134 pp.)"
+    reference_date: "2025-12-12"
     verification_date: "2026-11-10"
-    verification_status: secondary_only
+    verification_status: verified_primary
     classification: published
-    used_for: "Governance catalog: grid connection conditions in the reference region (gap)."
-    excerpt: null
+    used_for: "Governance catalog: grid connection conditions for data centres in the reference region."
+    excerpt: "≥ 10 MVA: dispatchable onsite or proximate generation/storage matching MIC (de-rated); ≥ 80% of annual demand from additional Irish renewables (Sections 3.4–3.5, paraphrase)."
+  - id: epa-ghg-hub-2025
+    title: "GHG Emission Factors Hub 2025 — Table 1 Stationary Combustion"
+    publisher: "U.S. Environmental Protection Agency"
+    url: "https://www.epa.gov/climateleadership/ghg-emission-factors-hub"
+    edition: "2025 Hub (January 2025)"
+    reference_date: "2025-01"
+    verification_date: "2026-11-10"
+    verification_status: verified_primary
+    classification: published
+    used_for: "Diesel combustion CO2 factor for standby generators (10.21 kg/gal → 2.70 kg/L)."
+    values:
+      - {name: "Distillate Fuel Oil No. 2, CO2 per gallon", value: 10.21, unit: "kg CO2/gal"}
+      - {name: "Distillate Fuel Oil No. 2, CO2 per mmBtu", value: 73.96, unit: "kg CO2/mmBtu"}
+    excerpt: "Combustion-only (tank-to-wheel) factors; upstream emissions excluded."
 
   - id: iea-energy-ai-2025
     title: "Energy and AI"

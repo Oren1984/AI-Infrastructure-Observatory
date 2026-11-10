@@ -72,7 +72,7 @@ def test_islanding_eligibility_rules(ref):
 
 def test_no_grid_supply_while_islanded(runs):
     r = runs["emergency"]
-    island = [(row, reasons) for row, reasons in zip(r.steps, r.source_reasons) if not row["grid_connected"]]
+    island = [(row, reasons) for row, reasons in zip(r.steps, r.source_reasons, strict=True) if not row["grid_connected"]]
     assert island, "emergency scenario must island"
     for row, reasons in island:
         assert row["grid_import_mw"] == 0
@@ -83,7 +83,7 @@ def test_no_grid_supply_while_islanded(runs):
 def test_cascade_order_and_reason_codes(runs):
     r = runs["emergency"]
     first_unavailable = {}
-    for row, reasons in zip(r.steps, r.source_reasons):
+    for row, reasons in zip(r.steps, r.source_reasons, strict=True):
         for sid in ("grid_oil", "grid_hydro", "grid_wind", "grid_solar"):
             if reasons[sid] == en.UNAVAILABLE and sid not in first_unavailable:
                 first_unavailable[sid] = row["step"]

@@ -82,3 +82,19 @@ def test_request_logging_excludes_prompt(emergency):
     assert DEFAULT_PROMPT not in blob
     assert all(e.request_id == t.request_id for e in rec.events)
     assert json.loads(events_to_json(rec.events))[0]["request_id"] == t.request_id
+
+
+def test_dispatchable_capacity_check_reports_gap(emergency):
+    from observatory.observability import control_checks
+    checks = {c["Check"]: c for c in control_checks(emergency.steps, emergency.events, emergency.decisions,
+                                                     dispatchable_mw=24, connection_mw=34)}
+    assert checks["CHK-09"]["Result"] == "Gap"
+    assert checks["CHK-04"]["Result"] == "Pass"
+
+
+def test_events_export_round_trip(emergency):
+    import csv
+    import io
+    rows = list(csv.DictReader(io.StringIO(events_to_csv(emergency.events))))
+    assert len(rows) == len(emergency.events)
+    assert set(rows[0]) == set(json.loads(events_to_json(emergency.events[:1]))[0])
