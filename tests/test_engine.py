@@ -229,3 +229,16 @@ def test_supply_by_source_matches_served_load(runs):
         for row in r.steps:
             delivered = sum(v for k, v in row.items() if k.startswith("supply_") and k.endswith("_mw"))
             assert delivered == pytest.approx(row["facility_load_mw"] - row["unserved_mw"], abs=1e-6)
+
+
+def test_event_values_and_units_are_consistent(runs):
+    for r in runs.values():
+        for e in r.events:
+            if e.event_type == "source_status":
+                assert e.observed_value is not None and e.unit == "MW", e
+    routing = [e for r in runs.values() for e in r.events if e.event_type == "model_routing"]
+    assert routing
+    for e in routing:
+        # capacity (req/s) is compared with the routing threshold (req/s = demand × 0.95)
+        assert e.unit.startswith("req/s")
+        assert (e.observed_value < e.threshold) == ("smaller model" in e.action or "Reference-S" in e.action)

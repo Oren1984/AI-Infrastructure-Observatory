@@ -282,7 +282,7 @@ class SimulationEngine:
             reasons["ups"] = en.EXHAUSTED
         else:
             reasons["ups"] = en.STANDBY
-        self._record_source_changes(reasons, islanded, reg, gen_mw, bat_mw, ups_mw)
+        self._record_source_changes(reasons, reg, local_avail, gen_mw, bat_mw, ups_mw)
 
         # 8. AI service
         accel = sum(b.it_mw * alloc.fractions.get(b.id, 0.0) for b in self.loads.blocks
@@ -447,8 +447,10 @@ class SimulationEngine:
         return row
 
     # --------------------------------------------------------- change events
-    def _record_source_changes(self, reasons, islanded, reg, gen_mw, bat_mw, ups_mw) -> None:
-        values = {"generator": gen_mw, "battery": bat_mw, "ups": ups_mw}
+    def _record_source_changes(self, reasons, reg, local_avail, gen_mw, bat_mw, ups_mw) -> None:
+        # Observed MW: delivered output for storage/backup, usable output for local sources,
+        # regional available capacity for grid sources.
+        values = {"generator": gen_mw, "battery": bat_mw, "ups": ups_mw, **local_avail}
         for sid, why in reasons.items():
             if self._prev_source_reason.get(sid) == why:
                 continue
@@ -475,10 +477,12 @@ class SimulationEngine:
                                    observed_value=b.cost_mw(self.f.cooling_power_factor), unit="MW incl. cooling", action=f"Restored: {b.label}", outcome="On")
                     self._decision(f"Restore {b.label}", "restore", ev, "Stable headroom")
             self._prev_on[b.id] = on
-        if svc.routed_to_small != self._prev_routed:
+        # Routing is only meaningful while inference is served; during shutdown keep the last routing state.
+        if svc.quality != UNAVAILABLE and svc.routed_to_small != self._prev_routed:
             ev = self._rec(component="ai/routing", severity="warning" if svc.routed_to_small else "notice", event_type="model_routing",
                            reason="Large-model capacity below routing threshold" if svc.routed_to_small else "Large-model capacity sufficient again",
-                           observed_value=svc.capacity_req_s, unit="req/s capacity", threshold=self.f.service.route_small_threshold * 100,
+                           observed_value=svc.large_capacity_req_s, unit="req/s (large-model capacity)",
+                           threshold=round(svc.demand_req_s * self.f.service.route_small_threshold, 3),
                            action=f"Route to {self.f.service.small_model.label}" if svc.routed_to_small else f"Route to {self.f.service.large_model.label}",
                            outcome="Routed")
             self._decision(ev.action, "route", ev, ev.reason)

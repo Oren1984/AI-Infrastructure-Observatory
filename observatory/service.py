@@ -36,6 +36,7 @@ class ServiceSnapshot:
     quality: str
     routed_to_small: bool
     concurrency_pct: float
+    large_capacity_req_s: float = 0.0  # large-model capacity the routing decision compares
 
 
 class ServiceModel:
@@ -71,7 +72,7 @@ class ServiceModel:
         if cap <= 0:
             rejected = lam * dt_s + self.queue
             self.queue = 0.0
-            return ServiceSnapshot(lam, profile.id, profile.label, 0, 0.0, 0.0, 0.0, rejected, None, 0.0, 0.0, UNAVAILABLE, routed, 0.0)
+            return ServiceSnapshot(lam, profile.id, profile.label, 0, 0.0, 0.0, 0.0, rejected, None, 0.0, 0.0, UNAVAILABLE, routed, 0.0, cap_l)
 
         backlog = self.queue + lam * dt_s
         served = min(backlog, cap * dt_s)
@@ -90,4 +91,4 @@ class ServiceModel:
         else:
             quality = FULL
         conc = 100.0 * cap_l / cap_full if cap_full > 0 else 0.0
-        return ServiceSnapshot(lam, profile.id, profile.label, n, cap, throughput, self.queue, rejected, latency, util, mem, quality, routed, min(conc, 100.0))
+        return ServiceSnapshot(lam, profile.id, profile.label, n, cap, throughput, self.queue, rejected, latency, util, mem, quality, routed, min(conc, 100.0), cap_l)
